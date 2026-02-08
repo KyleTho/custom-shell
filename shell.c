@@ -1,3 +1,23 @@
+int main() {
+
+    char *line;
+    char **args;
+
+    do {
+
+        line = read_line();
+        args = split_lines(line);
+        result = shell_execute(args);
+        free(line);
+        line = NULL;
+        free(args);
+        args = NULL;
+    
+    } while(result);
+
+}
+
+
 char *read_line() {
 
     int buff_space = 1048;
