@@ -1,3 +1,10 @@
+/* 
+   This is a limited shell written in C. There is piping functionality,
+   but it is limited to two commands. 
+
+*/
+
+
 int main() {
 
     char *line;
@@ -56,3 +63,5 @@ char *read_line() {
 
 
 }
+
+
