@@ -16,6 +16,8 @@ int main() {
 
     do {
 
+        fork = 
+
         line = read_line();
         args = tokenize(line);
         result = shell_execute(args);
@@ -41,29 +43,6 @@ char *read_line() {
         exit(EXIT_FAILURE);
     }
 
-    while (1) {
-
-        c = get_char();
-
-        if (c == EOF || c == \n) {
-            buffer[index] = "\0";
-            return *buffer;
-        } else {
-            buffer[index] = c;
-        }
-
-        index++;
-
-        if (index >= buff_space) {
-            buff_space += 1024;
-            buffer = realloc(buffer, buff_space);
-            if (!buffer) {
-                fprintf(stderr, "Memory reallocation error");
-                exit(EXIT_FAILURE);
-            }
-        }
-
-    }
 
 
 }
