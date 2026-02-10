@@ -4,6 +4,10 @@
 
 */
 
+char *read_line();
+char *tokenize(char *buffer);
+void shell_execute(char *token);
+
 
 int main() {
 
@@ -13,7 +17,7 @@ int main() {
     do {
 
         line = read_line();
-        args = split_lines(line);
+        args = tokenize(line);
         result = shell_execute(args);
         free(line);
         line = NULL;
@@ -64,4 +68,23 @@ char *read_line() {
 
 }
 
+char **tokenize(char *buffer) {
 
+    char **tokens_arr = malloc();
+
+    if (!tokens_arr) {
+        fprintf(stderr, "Memory allocation error");
+        exit(EXIT_FAILURE);
+    }
+
+    char *token = malloc();
+
+    if (!token) {
+        fprintf(stderr, "Memory allocation error");
+        exit(EXIT_FAILURE);
+    }
+
+    token = str_tok();
+
+
+}
