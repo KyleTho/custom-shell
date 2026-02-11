@@ -33,16 +33,19 @@ int main() {
 
 char *read_line() {
 
-    int buff_space = 1048;
-    int index;
-    char *buffer = malloc(buff_space);
-    int c;
+    char *buffer = NULL;
+    size_t buf_size;
 
-    if (!buffer) {
-        fprintf(stderr, "Memory allocation error");
-        exit(EXIT_FAILURE);
+    while (getline(&buffer, &buf_size, stdin) != -1) {
+
+        tokenize(buffer);
     }
 
+    if (ferror(stdin)) {
+
+        fprintf(stderr, "Read error")
+    
+    }
 
 
 }
