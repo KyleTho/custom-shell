@@ -6,7 +6,7 @@
 
 char *read_line();
 char *tokenize(char *buffer);
-void shell_execute(char *token);
+int shell_execute(char *token);
 
 
 int main() {
@@ -70,3 +70,37 @@ char **tokenize(char *buffer) {
 
 
 }
+
+int shell_execute(char **args) {
+
+    
+    cpid = fork();
+
+    if (cpid == 0) {
+        
+        if (execvp(args[0], args)) 
+
+    
+
+    }
+
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
