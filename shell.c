@@ -16,8 +16,6 @@ int main() {
 
     do {
 
-        fork = 
-
         line = read_line();
         args = tokenize(line);
         result = shell_execute(args);
@@ -72,17 +70,28 @@ char **tokenize(char *buffer) {
 }
 
 int shell_execute(char **args) {
-
     
+
+    int status;
     cpid = fork();
 
     if (cpid == 0) {
         
-        if (execvp(args[0], args)) 
-
-    
+        if (execvp(args[0], args) == -1) {
+            fprintf(stderr, "Unknown commands");
+            exit(EXIT_FAILURE);
+        }
 
     }
+    else if (cpid < 0) {
+        fprintf(stderr, "Forking error");
+    }
+    else {
+        waitpid(cpid, &status, WUNTRACED);
+    }
+
+    return 1;
+
 
 } 
 
