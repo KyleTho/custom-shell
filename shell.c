@@ -29,13 +29,6 @@ char *read_line(void) {
 
 char **tokenize(char *buffer) {
 
-    char **tokens_arr = malloc();
-
-    if (!tokens_arr) {
-        fprintf(stderr, "Memory allocation error");
-        exit(EXIT_FAILURE);
-    }
-
     char *token = malloc();
 
     if (!token) {
@@ -43,7 +36,7 @@ char **tokenize(char *buffer) {
         exit(EXIT_FAILURE);
     }
 
-    token = str_tok();
+    token = str_tok(buffer);
 
 
 }
