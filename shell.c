@@ -9,21 +9,20 @@ char *tokenize(char *buffer);
 int shell_execute(char *token);
 
 
-char *read_line() {
+char *read_line(void) {
 
     char *buffer = NULL;
     size_t buf_size;
 
-    while (getline(&buffer, &buf_size, stdin) != -1) {
+    if (getline(&buffer, &buf_size, stdin) != -1) {
+        if (ferror(stdin)) {
 
-        tokenize(buffer);
-    }
-
-    if (ferror(stdin)) {
-
-        fprintf(stderr, "Read error")
+            fprintf(stderr, "Read error")
     
+        }   
     }
+
+    return buffer;
 
 }
 
@@ -82,7 +81,8 @@ int main() {
     char **args;
 
     do {
-
+        
+        printf("->");
         line = read_line();
         args = tokenize(line);
         result = shell_execute(args);
