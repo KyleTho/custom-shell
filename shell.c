@@ -9,26 +9,6 @@ char *tokenize(char *buffer);
 int shell_execute(char *token);
 
 
-int main() {
-
-    char *line;
-    char **args;
-
-    do {
-
-        line = read_line();
-        args = tokenize(line);
-        result = shell_execute(args);
-        free(line);
-        line = NULL;
-        free(args);
-        args = NULL;
-    
-    } while(result);
-
-}
-
-
 char *read_line() {
 
     char *buffer = NULL;
@@ -45,8 +25,8 @@ char *read_line() {
     
     }
 
-
 }
+
 
 char **tokenize(char *buffer) {
 
@@ -96,6 +76,24 @@ int shell_execute(char **args) {
 } 
 
 
+int main() {
+
+    char *line;
+    char **args;
+
+    do {
+
+        line = read_line();
+        args = tokenize(line);
+        result = shell_execute(args);
+        free(line);
+        line = NULL;
+        free(args);
+        args = NULL;
+    
+    } while(result);
+
+}
 
 
 
