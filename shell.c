@@ -29,15 +29,30 @@ char *read_line(void) {
 
 char **tokenize(char *buffer) {
 
-    char *token = malloc();
+    char **tokens = malloc(128 * sizeof(char *));
+    char *token;
+    char *delims = " \t\r\n";
 
-    if (!token) {
+    if (!tokens) {
         fprintf(stderr, "Memory allocation error");
         exit(EXIT_FAILURE);
     }
 
-    token = str_tok(buffer);
+    token = strtok(buffer, delims);
+    
+    //catches a space or \n input by user
+    if (token == NULL) {
+        tokens[0] = NULL;
+        return tokens;
+    }
+    
+    for (int i=0; token != NULL && i <)
+    while (token != NULL) {
+        
+        token = strtok(NULL, delims);
+    }
 
+    return tokens;
 
 }
 
