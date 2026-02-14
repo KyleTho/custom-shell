@@ -4,6 +4,7 @@
 
 */
 
+
 char *read_line();
 char *tokenize(char *buffer);
 int shell_execute(char *token);
@@ -40,7 +41,6 @@ char **tokenize(char *buffer) {
 
     token = strtok(buffer, delims);
     
-    //catches a space or \n input by user
     if (token == NULL) {
         tokens[0] = NULL;
         return tokens;
@@ -72,13 +72,12 @@ int shell_execute(char **args) {
     }
     else if (cpid < 0) {
         fprintf(stderr, "Forking error");
-    }
+    }i
     else {
         waitpid(cpid, &status, WUNTRACED);
     }
 
     return 1;
-
 
 } 
 
