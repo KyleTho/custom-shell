@@ -1,11 +1,10 @@
 /* 
-   This is a limited shell written in C. There is piping functionality,
-   but it is limited to two commands. 
-
+   This is a shell written in C. There is piping functionality,
+   but it is limited.
 */
+#include <shell.h>
 
-
-char *read_line();
+char *read_line(void);
 char *tokenize(char *buffer);
 int shell_execute(char *token);
 
@@ -15,12 +14,13 @@ char *read_line(void) {
     char *buffer = NULL;
     size_t buf_size;
 
-    if (getline(&buffer, &buf_size, stdin) != -1) {
-        if (ferror(stdin)) {
-
-            fprintf(stderr, "Read error")
-    
-        }   
+    if (getline(&buffer, &buf_size, stdin) == -1) {
+        if (feof(stdin)) {
+            exit(EXIT_SUCCESS);
+        } else {
+            prror("Could not read line");
+            exit(EXIT_FAILURE)
+        }
     }
 
     return buffer;
@@ -31,13 +31,18 @@ char *read_line(void) {
 char **tokenize(char *buffer) {
 
     char **tokens = malloc(128 * sizeof(char *));
-    char *token;
-    char *delims = " \t\r\n";
-
-    if (!tokens) {
+    if (tokens == NULL) {
         fprintf(stderr, "Memory allocation error");
         exit(EXIT_FAILURE);
     }
+    
+    char *token = malloc(sizeof(char));
+    if (token == NULL) {
+        fprintf(stderr, "Memory allocation error");
+        exit(EXIT_FAILURE);
+    }
+    
+    char *delims = " \t\r\n";
 
     token = strtok(buffer, delims);
     
@@ -46,9 +51,7 @@ char **tokenize(char *buffer) {
         return tokens;
     }
     
-    for (int i=0; token != NULL && i <)
     while (token != NULL) {
-        
         token = strtok(NULL, delims);
     }
 
@@ -58,7 +61,6 @@ char **tokenize(char *buffer) {
 
 int shell_execute(char **args) {
     
-
     int status;
     cpid = fork();
 
@@ -72,8 +74,7 @@ int shell_execute(char **args) {
     }
     else if (cpid < 0) {
         fprintf(stderr, "Forking error");
-    }i
-    else {
+    } else {
         waitpid(cpid, &status, WUNTRACED);
     }
 
