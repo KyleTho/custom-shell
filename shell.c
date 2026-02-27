@@ -18,7 +18,7 @@ char *read_line(void) {
         if (feof(stdin)) {
             exit(EXIT_SUCCESS);
         } else {
-            prror("Could not read line");
+            perror("Could not read line");
             exit(EXIT_FAILURE)
         }
     }
@@ -36,13 +36,8 @@ char **tokenize(char *buffer) {
         exit(EXIT_FAILURE);
     }
     
-    char *token = malloc(sizeof(char));
-    if (token == NULL) {
-        fprintf(stderr, "Memory allocation error");
-        exit(EXIT_FAILURE);
-    }
-    
     char *delims = " \t\r\n";
+    int i = 0;
 
     token = strtok(buffer, delims);
     
@@ -53,7 +48,11 @@ char **tokenize(char *buffer) {
     
     while (token != NULL) {
         token = strtok(NULL, delims);
+        tokens[i] = token;
+        i++
     }
+
+    tokens[i] = NULL;
 
     return tokens;
 
@@ -95,11 +94,6 @@ int main() {
         args = tokenize(line);
         result = shell_execute(args);
         
-        //this will not work. Use NULL sentinel through tokenize() instead
-        size_t count = sizeof(args) / sizeof(args[0]);
-        for (int i=0; i < count; i++) {
-            free(args[i]);
-        }
         free(args);
         args = NULL;
         free(line);
