@@ -85,8 +85,8 @@ int shell_execute(char **args) {
 
 int main() {
 
-    char *line;
-    char **args;
+    char *line = NULL;
+    char **args = NULL;
 
     do {
         
@@ -94,13 +94,19 @@ int main() {
         line = read_line();
         args = tokenize(line);
         result = shell_execute(args);
-        free(line);
-        line = NULL;
+        
+        //this will not work. Use NULL sentinel through tokenize() instead
+        size_t count = sizeof(args) / sizeof(args[0]);
+        for (int i=0; i < count; i++) {
+            free(args[i]);
+        }
         free(args);
         args = NULL;
+        free(line);
+        line = NULL;
     
     } while(result);
-
+    
 }
 
 
