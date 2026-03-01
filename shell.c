@@ -2,6 +2,7 @@
    This is a shell written in C. There is piping functionality,
    but it is limited.
 */
+
 #include <shell.h>
 
 char *read_line(void);
@@ -61,6 +62,7 @@ char **tokenize(char *buffer) {
 int shell_execute(char **args) {
     
     int status;
+    int fd[2];
     cpid = fork();
 
     if (cpid == 0) {
