@@ -1,6 +1,5 @@
 /* 
-   This is a shell written in C. There is piping functionality,
-   but it is limited.
+   This is a simple UNIX shell written in C.
 */
 
 #include <shell.h>
