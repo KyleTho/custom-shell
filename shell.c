@@ -2,11 +2,11 @@
    This is a simple UNIX shell written in C.
 */
 
-#include <shell.h>
+#include "shell.h"
 
 char *read_line(void);
-char *tokenize(char *buffer);
-int shell_execute(char *token);
+char **tokenize(char *buffer);
+int shell_execute(char **args);
 
 
 char *read_line(void) {
@@ -19,7 +19,7 @@ char *read_line(void) {
             exit(EXIT_SUCCESS);
         } else {
             perror("Could not read line");
-            exit(EXIT_FAILURE)
+            exit(EXIT_FAILURE);
         }
     }
 
@@ -35,6 +35,7 @@ char **tokenize(char *buffer) {
         fprintf(stderr, "Memory allocation error");
         exit(EXIT_FAILURE);
     }
+    char *token;
     
     char *delims = " \t\r\n";
     int i = 0;
@@ -49,7 +50,7 @@ char **tokenize(char *buffer) {
     while (token != NULL) {
         token = strtok(NULL, delims);
         tokens[i] = token;
-        i++
+        i++;
     }
 
     tokens[i] = NULL;
@@ -60,8 +61,10 @@ char **tokenize(char *buffer) {
 
 int shell_execute(char **args) {
     
+    int cpid;
     int status;
     int fd[2];
+    pipe(fd);
     cpid = fork();
 
     if (cpid == 0) {
@@ -87,6 +90,7 @@ int main() {
 
     char *line = NULL;
     char **args = NULL;
+    int result;
 
     do {
         
