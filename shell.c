@@ -65,6 +65,11 @@ int shell_execute(char **args) {
     int status;
     int fd[2];
     pipe(fd);
+
+    if (pipe(fd) < 0) {
+    
+    }
+
     cpid = fork();
 
     if (cpid == 0) {
