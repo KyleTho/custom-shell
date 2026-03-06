@@ -68,6 +68,7 @@ int shell_execute(char **args) {
     pipe(fd);
 
     if (pipe(fd) < 0) {
+        fprintf(stderr, "Pipe has failed");
         exit(EXIT_FAILURE);
     }
 
