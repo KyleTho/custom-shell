@@ -62,12 +62,13 @@ char **tokenize(char *buffer) {
 int shell_execute(char **args) {
     
     int cpid;
+    int cpid_two;
     int status;
     int fd[2];
     pipe(fd);
 
     if (pipe(fd) < 0) {
-    
+        exit(EXIT_FAILURE);
     }
 
     cpid = fork();
@@ -78,6 +79,8 @@ int shell_execute(char **args) {
             fprintf(stderr, "Unknown commands");
             exit(EXIT_FAILURE);
         }
+        
+        cpid_two = fork();
 
     }
     else if (cpid < 0) {
