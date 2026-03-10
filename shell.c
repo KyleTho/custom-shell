@@ -4,10 +4,25 @@
 
 #include "shell.h"
 
+void init();
 char *read_line(void);
 char **tokenize(char *buffer);
+void pipe_cmd();
 int shell_execute(char **args);
 
+
+void init() {
+
+    GBSH_PID = getpid();
+
+    GBSH_IS_INTERACTIVE = isatty(STDIN_FILENO);
+
+    if (GBSH_IS_INTERACTIVE) {
+        while (tcgetpgrp(STDIN_FILENO) != (GBSH_PGID = getpgrp())) {
+            kill(GBSH_PID, SIGTTIN);
+        }
+    }
+}
 
 char *read_line(void) {
 
@@ -59,11 +74,7 @@ char **tokenize(char *buffer) {
 
 }
 
-int shell_execute(char **args) {
-    
-    int cpid;
-    int cpid_two;
-    int status;
+void pipe_cmd() {
     int fd[2];
     pipe(fd);
 
@@ -71,6 +82,13 @@ int shell_execute(char **args) {
         fprintf(stderr, "Pipe has failed");
         exit(EXIT_FAILURE);
     }
+}
+
+int shell_execute(char **args) {
+    
+    int cpid;
+    int cpid_two;
+    int status;
 
     cpid = fork();
 
