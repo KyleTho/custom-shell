@@ -13,13 +13,15 @@ int shell_execute(char **args);
 
 void init() {
 
-    GBSH_PID = getpid();
+    static pid_t leash_pgid;
+    static pid_t leash_pid = getpid();
 
-    GBSH_IS_INTERACTIVE = isatty(STDIN_FILENO);
+    is_interactive = isatty(STDIN_FILENO);
 
-    if (GBSH_IS_INTERACTIVE) {
-        while (tcgetpgrp(STDIN_FILENO) != (GBSH_PGID = getpgrp())) {
-            kill(GBSH_PID, SIGTTIN);
+    if (is_interactive) {
+        // Checks if the PGID of the subshell is the same as the PGID of the foreground of the terminal
+        while (tcgetpgrp(STDIN_FILENO) != (leash_pgid = getpgrp())) {
+            kill(leash_pid, SIGTTIN);
         }
     }
 }
