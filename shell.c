@@ -84,6 +84,10 @@ void pipe_cmd() {
         fprintf(stderr, "Pipe has failed");
         exit(EXIT_FAILURE);
     }
+    
+//    while (array of tokens not at end)
+//        if token is pipe symbol
+//            
 }
 
 int shell_execute(char **args) {
