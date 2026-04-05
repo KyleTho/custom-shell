@@ -7,8 +7,8 @@
 void init();
 char *read_line(void);
 char **tokenize(char *buffer);
-void pipe_cmd();
-int shell_execute(char **args);
+void pipe_cmd(char **args);
+int shell_execute(char **args, int input_source, int dest);
 
 
 void init() {
@@ -84,7 +84,8 @@ void pipe_cmd() {
         fprintf(stderr, "Pipe has failed");
         exit(EXIT_FAILURE);
     }
-    
+//    First run pipe, then dup() stdin from keyboard to file,
+//    then dup2() stdin back to fd[0];
 //    while (array of tokens not at end)
 //        if token is pipe symbol
 //            
@@ -130,7 +131,7 @@ int main() {
         printf("->");
         line = read_line();
         args = tokenize(line);
-        result = shell_execute(args);
+        result = pipe_cmd(args);
         
         free(args);
         args = NULL;
