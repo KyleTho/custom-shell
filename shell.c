@@ -76,14 +76,25 @@ char **tokenize(char *buffer) {
 
 }
 
-void pipe_cmd() {
+void pipe_cmd(char **args) {
     int fd[2];
-    pipe(fd);
-
-    if (pipe(fd) < 0) {
-        fprintf(stderr, "Pipe has failed");
-        exit(EXIT_FAILURE);
+    int input_source = 0;
+    int length = sizeof(**args) / sizeof(*args);
+    
+    for (int i=0; args[i] != NULL; i++) {
+        
+        if (args[i+1] != NULL) {
+            
+        }
+        
     }
+    
+    
+    
+    
+    
+    
+    
 //    First run pipe, then dup() stdin from keyboard to file,
 //    then dup2() stdin back to fd[0];
 //    while (array of tokens not at end)
