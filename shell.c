@@ -82,13 +82,8 @@ char **tokenize(char *buffer) {
 
 }
 
-char ***parse_pipeline(char *buffer, int *cmd_count) {
+Command *parse_pipeline(char *buffer, int *cmd_count) {
     
-    char **tokens = malloc(128 * sizeof(char *));
-    if (tokens == NULL) {
-        fprintf(stderr, "Memory allocation error");
-        exit(EXIT_FAILURE);
-    }
     char *token;
     
     char *delims = " \t\r\n";
