@@ -7,9 +7,15 @@
 void init();
 char *read_line(void);
 char **tokenize(char *buffer);
-void pipe_cmd(char **args);
+char ***parse_pipeline();
 int shell_execute(char **args, int input_source, int dest);
 
+
+typedef struct{
+    char **argv;
+    int in_fd;
+    int out_fd;
+} Command;
 
 void init() {
 
@@ -65,9 +71,9 @@ char **tokenize(char *buffer) {
     }
     
     while (token != NULL) {
-        token = strtok(NULL, delims);
         tokens[i] = token;
         i++;
+        token = strtok(NULL, delims);
     }
 
     tokens[i] = NULL;
@@ -76,23 +82,21 @@ char **tokenize(char *buffer) {
 
 }
 
-void pipe_cmd(char **args) {
-    int fd[2];
-    int input_source = 0;
-    int length = sizeof(**args) / sizeof(*args);
+char ***parse_pipeline(char *buffer, int *cmd_count) {
     
-    for (int i=0; args[i] != NULL; i++) {
-        
-        if (args[i+1] != NULL) {
-            
-        }
-        
+    char **tokens = malloc(128 * sizeof(char *));
+    if (tokens == NULL) {
+        fprintf(stderr, "Memory allocation error");
+        exit(EXIT_FAILURE);
     }
+    char *token;
     
+    char *delims = " \t\r\n";
+    int i = 0;
+
+    token = strtok(buffer, delims);
     
-    
-    
-    
+}
     
     
 //    First run pipe, then dup() stdin from keyboard to file,
