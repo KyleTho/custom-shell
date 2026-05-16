@@ -4,10 +4,9 @@
 
 #include "shell.h"
 
-void init();
+//void init();
 char *read_line(void);
-char **tokenize(char *buffer);
-char ***parse_pipeline();
+Command *parse_pipeline();
 int shell_execute(char **args, int input_source, int dest);
 
 
@@ -17,6 +16,9 @@ typedef struct{
     int out_fd;
 } Command;
 
+/*
+* Ensures shell is running in terminal and is the foreground shell of that terminal.
+* Needed if adding job control in future.
 void init() {
 
     static pid_t leash_pgid;
@@ -31,6 +33,7 @@ void init() {
         }
     }
 }
+*/
 
 char *read_line(void) {
 
@@ -51,17 +54,17 @@ char *read_line(void) {
 }
 
 
-char **tokenize(char *buffer) {
+Command *parse_pipeline(char *buffer) {
 
-    char **tokens = malloc(128 * sizeof(char *));
-    if (tokens == NULL) {
+    Command *commands = malloc(128 * sizeof(Command));
+    if (commands == NULL) {
         fprintf(stderr, "Memory allocation error");
         exit(EXIT_FAILURE);
     }
     char *token;
-    
     char *delims = " \t\r\n";
-    int i = 0;
+    
+    
 
     token = strtok(buffer, delims);
     
@@ -70,6 +73,7 @@ char **tokenize(char *buffer) {
         return tokens;
     }
     
+    int i = 0;
     while (token != NULL) {
         tokens[i] = token;
         i++;
@@ -82,18 +86,9 @@ char **tokenize(char *buffer) {
 
 }
 
-Command *parse_pipeline(char *buffer, int *cmd_count) {
     
-    char *token;
-    
-    char *delims = " \t\r\n";
-    int i = 0;
 
-    token = strtok(buffer, delims);
-    
-}
-    
-    
+//    THIS IS FOR EXECUTE FUNCTION
 //    First run pipe, then dup() stdin from keyboard to file,
 //    then dup2() stdin back to fd[0];
 //    while (array of tokens not at end)
