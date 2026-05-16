@@ -64,25 +64,35 @@ Command *parse_pipeline(char *buffer) {
     char *token;
     char *delims = " \t\r\n";
     
+    command = strtok(buffer, "|");
+    if (command == NULL) {
+        commands[0] = NULL;
+        return commands;
+    }
     
+    int i = 0;
+    while (command != NULL) {
+        commands[i] = command;
+        i++;
+        command = strtok(NULL, "|");
+    }
 
     token = strtok(buffer, delims);
     
     if (token == NULL) {
         tokens[0] = NULL;
-        return tokens;
     }
     
-    int i = 0;
+    int j = 0;
     while (token != NULL) {
-        tokens[i] = token;
-        i++;
+        tokens[j] = token;
+        j++;
         token = strtok(NULL, delims);
     }
 
     tokens[i] = NULL;
 
-    return tokens;
+    return commands;
 
 }
 
