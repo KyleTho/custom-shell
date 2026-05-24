@@ -101,7 +101,7 @@ Command *parse_pipeline(char *buffer) {
 //    THIS IS FOR EXECUTE FUNCTION
 //    First run pipe, then dup() stdin from keyboard to file,
 //    then dup2() stdin back to fd[0];
-//    while (array of tokens not at end)
+//    while (array of commands not at end)
 //        if token is pipe symbol
 //            
 }
@@ -111,6 +111,11 @@ int shell_execute(char **args) {
     int cpid;
     int cpid_two;
     int status;
+    
+    //TODO: check for built-ins like "cd"
+    
+    //TODO: check for exit cmd
+    // DO these before fork() !!!!!!!!!!!!!!!!
 
     cpid = fork();
 
@@ -145,31 +150,17 @@ int main() {
         
         printf("->");
         line = read_line();
-        args = tokenize(line);
-        result = pipe_cmd(args);
+        args = parse_pipeline(line);
+        result = shell_execute(args);
         
         free(args);
         args = NULL;
         free(line);
         line = NULL;
+        free(commands);
+        commands = NULL;
     
     } while(result);
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
