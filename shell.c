@@ -61,10 +61,13 @@ Command *parse_pipeline(char *buffer) {
         fprintf(stderr, "Memory allocation error");
         exit(EXIT_FAILURE);
     }
+    
+    char *saveptr1, *saveptr2;
+    int arg_index;
     char *token;
     char *delims = " \t\r\n";
     
-    command = strtok(buffer, "|");
+    command = strtok_r(buffer, "|", &saveptr1);
     if (command == NULL) {
         commands[0] = NULL;
         return commands;
@@ -72,25 +75,26 @@ Command *parse_pipeline(char *buffer) {
     
     int i = 0;
     while (command != NULL) {
-        commands[i] = command;
+        token = strtok_r(*argv, delims, &saveptr2);
+        arg_index = 0;
+        char **argv = malloc(100 * sizeof(char *));
+        if (argv == NULL) {
+            fprintf(stderr, "Memory allocation error");
+            exit(EXIT_FAILURE);
+        }
+        while (token != NULL) {
+            commands[i].argv[arg_index] = token;
+            arg_index++;
+            token = strtok_r(NULL, delims, &saveptr2);
+        }
         i++;
-        command = strtok(NULL, "|");
+        command = strtok_r(NULL, "|", &saveptr1);
     }
 
-    token = strtok(buffer, delims);
     
-    if (token == NULL) {
-        tokens[0] = NULL;
-    }
-    
-    int j = 0;
-    while (token != NULL) {
-        tokens[j] = token;
-        j++;
-        token = strtok(NULL, delims);
-    }
-
-    tokens[i] = NULL;
+    commands[i].argv[arg_index] = NULL;
+    commands[i].in_fd = 0;
+    commands[i].out_fd = 1;
 
     return commands;
 
