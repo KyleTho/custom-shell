@@ -69,13 +69,13 @@ Command *parse_pipeline(char *buffer) {
     
     command = strtok_r(buffer, "|", &saveptr1);
     if (command == NULL) {
-        commands[0] = NULL;
+        commands[0].argv = NULL;
         return commands;
     }
     
     int i = 0;
     while (command != NULL) {
-        token = strtok_r(*argv, delims, &saveptr2);
+        token = strtok_r(command, delims, &saveptr2);
         arg_index = 0;
         char **argv = malloc(100 * sizeof(char *));
         if (argv == NULL) {
@@ -167,4 +167,3 @@ int main() {
     } while(result);
     
 }
-
