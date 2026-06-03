@@ -18,7 +18,7 @@ typedef struct{
 
 /*
 * Ensures shell is running in terminal and is the foreground shell of that terminal.
-* Needed if adding job control in future.
+* Needed for adding job control in future.
 void init() {
 
     static pid_t leash_pgid;
@@ -87,14 +87,12 @@ Command *parse_pipeline(char *buffer) {
             arg_index++;
             token = strtok_r(NULL, delims, &saveptr2);
         }
+        commands[i].argv[arg_index] = NULL;
+        commands[i].in_fd = 0;
+        commands[i].out_fd = 1;
         i++;
         command = strtok_r(NULL, "|", &saveptr1);
     }
-
-    
-    commands[i].argv[arg_index] = NULL;
-    commands[i].in_fd = 0;
-    commands[i].out_fd = 1;
 
     return commands;
 
