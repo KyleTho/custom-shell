@@ -108,7 +108,7 @@ Command *parse_pipeline(char *buffer) {
 //            
 }
 
-int shell_execute(char **args) {
+int shell_execute(Command **args) {
     
     int cpid;
     int cpid_two;
@@ -128,8 +128,6 @@ int shell_execute(char **args) {
             fprintf(stderr, "Unknown commands");
             exit(EXIT_FAILURE);
         }
-        
-        cpid_two = fork();
 
     }
     else if (cpid < 0) {
