@@ -108,14 +108,24 @@ Command *parse_pipeline(char *buffer) {
 //            
 }
 
-int shell_execute(Command **args) {
+int shell_execute(Command *commands) {
     
     int cpid;
     int cpid_two;
     int status;
     
     //TODO: check for built-ins like "cd"
-    
+    if (commands[1].argv == NULL) {
+        if (strcmp(comamnds[0].argv[0],"cd") == 0) {
+            if (commands[0].argv[1] != NULL) {
+                chdir(commands[0].argv[1]);
+            }
+            return 1;
+        }
+        else if (strcmp(comamnds[0].argv[0],"exit") == 0) {
+            exit(0);
+        }
+    }
     
     //TODO: check for exit cmd
     // DO these before fork() !!!!!!!!!!!!!!!!
@@ -124,7 +134,7 @@ int shell_execute(Command **args) {
 
     if (cpid == 0) {
         
-        if (execvp(args[0], args) == -1) {
+        if (execvp(commands[i].argv[0], commands[i].argv) == -1) {
             fprintf(stderr, "Unknown commands");
             exit(EXIT_FAILURE);
         }
@@ -144,18 +154,16 @@ int shell_execute(Command **args) {
 int main() {
 
     char *line = NULL;
-    char **args = NULL;
+    char *commands = NULL;
     int result;
 
     do {
         
         printf("->");
         line = read_line();
-        args = parse_pipeline(line);
-        result = shell_execute(args);
+        commands = parse_pipeline(line);
+        result = shell_execute(commands);
         
-        free(args);
-        args = NULL;
         free(line);
         line = NULL;
         free(commands);
