@@ -113,10 +113,9 @@ int shell_execute(Command *commands) {
     int cpid;
     int cpid_two;
     int status;
-    
-    //TODO: check for built-ins like "cd"
+
     if (commands[1].argv == NULL) {
-        if (strcmp(comamnds[0].argv[0],"cd") == 0) {
+        if (strcmp(commands[0].argv[0],"cd") == 0) {
             if (commands[0].argv[1] != NULL) {
                 chdir(commands[0].argv[1]);
             }
@@ -126,9 +125,6 @@ int shell_execute(Command *commands) {
             exit(0);
         }
     }
-    
-    //TODO: check for exit cmd
-    // DO these before fork() !!!!!!!!!!!!!!!!
 
     cpid = fork();
 
