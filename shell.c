@@ -113,6 +113,7 @@ int shell_execute(Command *commands) {
     int cpid;
     int cpid_two;
     int status;
+    int i = 0;
 
     if (commands[1].argv == NULL) {
         if (strcmp(commands[0].argv[0],"cd") == 0) {
@@ -125,21 +126,28 @@ int shell_execute(Command *commands) {
             exit(0);
         }
     }
-
-    cpid = fork();
-
-    if (cpid == 0) {
+    
+    while (commands[i].argv != NULL) {
         
-        if (execvp(commands[i].argv[0], commands[i].argv) == -1) {
-            fprintf(stderr, "Unknown commands");
-            exit(EXIT_FAILURE);
-        }
-
+        cpid = fork();
+        
+        i++;
     }
-    else if (cpid < 0) {
-        fprintf(stderr, "Forking error");
-    } else {
-        waitpid(cpid, &status, WUNTRACED);
+    
+    while () {
+        if (cpid == 0) {
+            
+            if (execvp(commands[i].argv[0], commands[i].argv) == -1) {
+                fprintf(stderr, "Unknown commands");
+                exit(EXIT_FAILURE);
+            }
+
+        }
+        else if (cpid < 0) {
+            fprintf(stderr, "Forking error");
+        } else {
+            waitpid(cpid, &status, WUNTRACED);
+        }
     }
 
     return 1;
