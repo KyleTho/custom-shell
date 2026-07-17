@@ -113,6 +113,7 @@ int shell_execute(Command *commands) {
     int cpid;
     int cpid_two;
     int status;
+    int fd[2];
     int i = 0;
 
     if (commands[1].argv == NULL) {
@@ -126,6 +127,8 @@ int shell_execute(Command *commands) {
             exit(0);
         }
     }
+    
+    pipe(fd);
     
     while (commands[i].argv != NULL) {
         
