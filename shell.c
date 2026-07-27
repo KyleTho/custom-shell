@@ -106,7 +106,7 @@ Command *parse_pipeline(char *buffer) {
 //    while (array of commands not at end)
 //        if token is pipe symbol
 //            
-}
+
 
 int shell_execute(Command *commands) {
     
