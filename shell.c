@@ -111,7 +111,6 @@ Command *parse_pipeline(char *buffer) {
 int shell_execute(Command *commands) {
     
     int cpid;
-    int cpid_two;
     int status;
     int fd[2];
     int i = 0;
